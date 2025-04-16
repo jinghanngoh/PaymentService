@@ -1,0 +1,50 @@
+swagger: '2.0'
+## Initiate Payment
+## Request account creation
+
+info:
+  version: v1.0
+  title: Manager Facade
+host: 'localhost:8080'
+basePath: /rest
+schemes:
+  - http
+paths:
+  /manager/report':
+    get:
+      consumes: []
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'  
+definitions:
+  ErrorResponse:
+    properties:
+      message:
+        type: string
+  Report:
+    properties:
+      amount:
+        type: integer
+      token:
+        type: string
+      merchantBankAccount:
+        type: string
+      customerBankAccount:
+        type: string
+      paymentId:
+        type: string
+      merchantDTUId:
+        type: string
+      description:
+        type: string
+

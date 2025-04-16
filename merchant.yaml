@@ -1,0 +1,158 @@
+swagger: '2.0'
+## Initiate Payment
+## Request account creation
+
+info:
+  version: v1.0
+  title: Merchant Facade
+host: 'localhost:8080'
+basePath: /rest
+schemes:
+  - http
+paths:
+  /merchant:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Merchant'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Merchant'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/merchant/{dtupayID}':
+    get:
+      consumes: []
+      produces:
+        - application/json
+      parameters: 
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/Merchant'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'    
+    delete:
+      consumes: []
+      produces:
+        - text/plain
+      parameters:
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '204':
+          description: No Content
+          headers: {}
+        '404':
+          description: Not Found
+          headers: {}
+          schema:
+            type: string
+  /merchant/payment/{dtupayID}:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentRequest'
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/PaymentResponse'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /merchant/report/{dtupayID}':
+    get:
+      consumes: []
+      produces:
+        - application/json
+      parameters: 
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'   
+definitions:
+  ErrorResponse:
+    properties:
+      message:
+        type: string
+  PaymentRequest:
+    properties:
+      customerToken:
+        type: string
+      merchantAccount: 
+        type: string
+      amount:
+        type: integer
+      description: 
+        type: string
+  PaymentResponse:
+    properties:
+      message:
+        type: array
+        items:
+          type: string
+  Merchant:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      cprNumber:
+        type: string
+      bankId:
+        type: string
+  Report:
+    properties:
+      amount:
+        type: integer
+      token:
+        type: string
+

@@ -1,0 +1,142 @@
+swagger: '2.0'
+info:
+  version: v1.0
+  title: Customer Facade
+host: 'localhost:8080'
+basePath: /rest
+schemes:
+  - http
+paths:
+  /customer:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customers'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Customers'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/customer/{dtupayID}':
+    get:
+      consumes: []
+      produces:
+        - application/json
+      parameters: 
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/Customers'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'    
+    delete:
+      consumes: []
+      produces:
+        - text/plain
+      parameters:
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '204':
+          description: No Content
+          headers: {}
+        '404':
+          description: Not Found
+          headers: {}
+          schema:
+            type: string
+  /customer/tokens/{dtupayID}:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: 
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TokenResponse'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /customer/report/{dtupayID}':
+    get:
+      consumes: []
+      produces:
+        - application/json
+      parameters: 
+        - type: string
+          name: dtupayID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          description: Bad Request
+          headers: {}
+          schema:
+            $ref: '#/definitions/ErrorResponse' 
+definitions:
+  ErrorResponse:
+    properties:
+      message:
+        type: string
+  TokenResponse:
+    properties:
+      tokens:
+        type: array
+        items:
+          type: string
+  Customer:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      cprNumber:
+        type: string
+      bankId:
+        type: string
+  Report:
+    properties:
+      amount:
+        type: integer
+      token:
+        type: string
+      description:
+        type: string
+
